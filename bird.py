@@ -15,13 +15,13 @@ class Bird:
         self.vitesse_descente = None
         self.tuyau = Obstacle()
 
-    def affichage(self, couleur, pos_x, pos_y, rayon):
-        pygame.draw.circle(core.screen, couleur, [pos_x, pos_y], rayon)
+    def affichage(self):
 
-    def saut(self, pos_y):
-        core.getkeyPressValue()
-        if core.keyPressValue == " ":
-            pos_y + 50
+        pygame.draw.circle(core.screen, self.couleur, [self.pos_x, self.pos_y], self.rayon)
+
+    def saut(self):
+
+            self.pos_y = self.pos_y - 20
 
 
     def collision(self):
