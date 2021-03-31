@@ -8,10 +8,12 @@ from pygame import K_s, K_SPACE
 from pygame.math import Vector2
 import core
 from bird import Bird
-
+from obstacle import Obstacle
 
 #Variables globales
 flappy = Bird()
+tuyau = Obstacle()
+i = None
 
 
 def setup():
@@ -26,6 +28,11 @@ def setup():
     flappy.rayon = 20
 
     #---Setup Tuyau---#
+    tuyau.couleur = "dark green"
+    tuyau.posX1 = 800
+    tuyau.posY1 = 0
+    tuyau.posX2 = 50
+    tuyau.posY2 = 500
 
 
 
@@ -38,6 +45,10 @@ def run():
 
     #Affichage Flappy
     flappy.affichage()
+
+    #Affichage Tuyau
+    tuyau.affichage()
+
 
 
     #Saut

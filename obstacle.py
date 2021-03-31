@@ -6,15 +6,19 @@ import core
 class Obstacle:
 
     def __init__(self):
-        self.hauteur = None
-        self.largeur = None
-        self.posX = None
-        self.posY = None
+
+        self.posX1 = None
+        self.posX2 = None
+        self.posY1 = None
+        self.posY2 = None
         self.couleur = ""
 
     def affichage(self):
 
-        pass
+        pygame.draw.rect(core.screen, self.couleur, (self.posX1, self.posY1, self.posX2, self.posY2), 0)
+
 
     def deplacement(self):
+
         pass
+

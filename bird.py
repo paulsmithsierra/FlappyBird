@@ -21,7 +21,7 @@ class Bird:
 
     def saut(self):
 
-            self.pos_y = self.pos_y - 20
+            self.pos_y = self.pos_y - 10
 
 
     def collision(self):
