@@ -128,7 +128,7 @@ def main(setupf,runf):
 
 
         clock.tick(fps)
-        #print(clock.get_time())
+        # print(clock.get_time())
         # Go ahead and update the screen with what we 've drawn.
         pygame.display.flip()
 

@@ -1,5 +1,4 @@
 import pygame
-
 import core
 
 
@@ -16,9 +15,10 @@ class Obstacle:
     def affichage(self):
 
         pygame.draw.rect(core.screen, self.couleur, (self.posX1, self.posY1, self.posX2, self.posY2), 0)
+        print("Inside obstacle's affichage() method")
 
 
-    def deplacement(self):
+    def move(self):
 
         pass
 
