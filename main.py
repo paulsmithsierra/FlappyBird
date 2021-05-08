@@ -5,22 +5,26 @@
 
 import pygame
 from pygame import K_s, K_SPACE
-from pygame.math import Vector2
 import core
 from bird import Bird
 from obstacle import Obstacle
 
 # Variables globales
 flappy = Bird()
+
 tuyau = Obstacle()
+
+
 i = None
+true = 1
 
 
 def setup():
     print("Setup START---------")
+
+    #Fenêtre
     core.fps = 30
     core.WINDOW_SIZE = [800, 500]
-
 
     # ---Setup Flappy---
     flappy.couleur = "yellow"
@@ -30,12 +34,11 @@ def setup():
 
     # ---Setup Tuyau---
     tuyau.couleur = "dark green"
-    tuyau.posX1 = 600
+    tuyau.posX1 = 800
     tuyau.posY1 = 0
     tuyau.posX2 = 50
     tuyau.posY2 = 500
-
-
+    tuyau.compteur_move_X1 = 0
 
 
     print("Setup END-----------")
@@ -44,17 +47,16 @@ def setup():
 def run():
     print("running")
 
-    # Affichage Flappy
+    #Affichage Flappy
     flappy.affichage()
 
-    # Affichage Tuyau
+    #Affichage Tuyau
     tuyau.affichage()
 
+    #Déplacement tuyau
+    tuyau.move()
 
-
-
-    # Saut
-
+    #Saut
     if pygame.key.get_pressed()[K_SPACE]:
 
         flappy.saut()

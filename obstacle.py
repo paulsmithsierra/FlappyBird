@@ -11,6 +11,7 @@ class Obstacle:
         self.posY1 = None
         self.posY2 = None
         self.couleur = ""
+        self.compteur_move_X1 = None
 
     def affichage(self):
 
@@ -20,5 +21,17 @@ class Obstacle:
 
     def move(self):
 
-        pass
+        #Déplacement
+        self.posX1 = self.posX1 - 1
+        self.compteur_move_X1 = self.compteur_move_X1 + 1
+        print(self.compteur_move_X1)
+
+        #Reset
+        if self.compteur_move_X1 == 800:
+
+            self.posX1 = 800
+            self.compteur_move_X1 = 0
+
+
+
 
