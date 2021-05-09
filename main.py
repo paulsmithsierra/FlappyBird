@@ -17,10 +17,10 @@ from obstacle import Obstacle
 flappy = Bird()
 saut_front_montant = None
 # Tuyaux
-tuyau_1 = Obstacle()
-tuyau_2 = Obstacle()
-espace_1 = Obstacle()
-espace_2 = Obstacle()
+tuyau_1H = Obstacle()
+tuyau_1B = Obstacle()
+tuyau_2H = Obstacle()
+tuyau_2B = Obstacle()
 # Sol
 sol = Obstacle()
 # Autres
@@ -45,42 +45,44 @@ def setup():
 
     # ---Setup Obstacles---
     # N°Tuyau 1
-    tuyau_1.O_couleur = "dark green"
-    tuyau_1.O_posX1 = 800
-    tuyau_1.O_posY1 = 0
-    tuyau_1.O_posX2 = 50
-    tuyau_1.O_posY2 = 500
-    tuyau_1.O_compteur_moveX1 = 0
-    # N°Tuyau 2
-    tuyau_2.O_couleur = "dark green"
-    tuyau_2.O_posX1 = 1200
-    tuyau_2.O_posY1 = 0
-    tuyau_2.O_posX2 = 50
-    tuyau_2.O_posY2 = 500
-    tuyau_2.O_compteur_moveX1 = 0
+    ## Haut
+    tuyau_1H.couleur = "dark green"
+    tuyau_1H.posX1 = 800
+    tuyau_1H.posY1 = 0
+    tuyau_1H.posX2 = 50
+    tuyau_1H.posY2 = randint(1, 250)
+    tuyau_1H.compteur_moveX1 = 0
+    ## Bas
+    tuyau_1B.couleur = "dark green"
+    tuyau_1B.posX1 = 800
+    tuyau_1B.posY1 = tuyau_1H.posY2 + 150
+    tuyau_1B.posX2 = 50
+    tuyau_1B.posY2 = 500
+    tuyau_1B.compteur_moveX1 = 0
 
-    # ---Setup Espaces---
-    # N°1
-    espace_1.O_couleur = "black"
-    espace_1.O_posX1 = tuyau_1.O_posX1
-    espace_1.O_posY1 = randint(50, 300)
-    espace_1.O_posX2 = tuyau_1.O_posX2
-    espace_1.O_posY2 = 125
-    espace_1.O_compteur_moveX1 = 0
-    # N°2
-    espace_2.O_couleur = "black"
-    espace_2.O_posX1 = tuyau_2.O_posX1
-    espace_2.O_posY1 = randint(50, 300)
-    espace_2.O_posX2 = tuyau_2.O_posX2
-    espace_2.O_posY2 = 125
-    espace_2.O_compteur_moveX1 = 0
+    # N°Tuyau 2
+    ## Haut
+    tuyau_2H.couleur = "dark green"
+    tuyau_2H.posX1 = 1200
+    tuyau_2H.posY1 = 0
+    tuyau_2H.posX2 = 50
+    tuyau_2H.posY2 = randint(1, 250)
+    tuyau_2H.compteur_moveX1 = 0
+    ## Bas
+    tuyau_2B.couleur = "dark green"
+    tuyau_2B.posX1 = 1200
+    tuyau_2B.posY1 = tuyau_2H.posY2 + 150
+    tuyau_2B.posX2 = 50
+    tuyau_2B.posY2 = 500
+    tuyau_2B.compteur_moveX1 = 0
+
 
     # ---Setup Sol---
-    sol.O_couleur = "brown"
-    sol.O_posX1 = 0
-    sol.O_posY1 = 400
-    sol.O_posX2 = 800
-    sol.O_posY2 = 100
+    sol.couleur = "brown"
+    sol.posX1 = 0
+    sol.posY1 = 400
+    sol.posX2 = 800
+    sol.posY2 = 100
 
 
     print("Setup END-----------")
@@ -90,20 +92,18 @@ def run():
     print("running")
 
     # ---Tuyaux---
-    # N°1
-    tuyau_1.affichage()
-    tuyau_1.move()
-    # N°2
-    tuyau_2.affichage()
-    tuyau_2.move()
-
-    # ---Espaces---
-    # N°1
-    espace_1.affichage()
-    espace_1.move()
-    # N°2
-    espace_2.affichage()
-    espace_2.move()
+    # Haut 1
+    tuyau_1H.affichage()
+    tuyau_1H.move()
+    # Bas 1
+    tuyau_1B.affichage()
+    tuyau_1B.move()
+    # Haut 2
+    tuyau_2H.affichage()
+    tuyau_2H.move()
+    # Bas 2
+    tuyau_2B.affichage()
+    tuyau_2B.move()
 
     # ---Flappy Bird---
     flappy.affichage()
@@ -114,23 +114,18 @@ def run():
 
     # ---Actions---
     # Sauter (spacebar)
-
-
     if pygame.key.get_pressed() [K_SPACE]:
 
-        flappy.saut(20)
-
-
+        flappy.saut(30)
 
     # Collision
-    if flappy.forme.colliderect(sol.O_forme):
+    if flappy.forme.colliderect(sol.forme):
         print("collision sol")
 
-
-    elif flappy.forme.colliderect(tuyau_1.O_forme):
+    elif flappy.forme.colliderect(tuyau_1H.forme):
         print("collision tuyau 1")
 
-    elif flappy.forme.colliderect(tuyau_2.O_forme):
+    elif flappy.forme.colliderect(tuyau_2H.forme):
         print("collision tuyau 2")
 
 
