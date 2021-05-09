@@ -6,6 +6,7 @@ class Obstacle:
 
     def __init__(self):
 
+        self.O_forme = None
         self.O_posX1 = None
         self.O_posX2 = None
         self.O_posY1 = None
@@ -15,7 +16,7 @@ class Obstacle:
 
     def affichage(self):
 
-        pygame.draw.rect(core.screen, self.O_couleur, (self.O_posX1, self.O_posY1, self.O_posX2, self.O_posY2), 0)
+        self.O_forme = pygame.draw.rect(core.screen, self.O_couleur, (self.O_posX1, self.O_posY1, self.O_posX2, self.O_posY2), 0)
 
 
     def move(self):
