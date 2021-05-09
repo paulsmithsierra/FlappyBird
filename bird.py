@@ -27,6 +27,10 @@ class Bird:
     # Saut
     def saut(self, vitesse_montee):
 
+        if (self.pos_y - vitesse_montee) < 0:
+            self.pos_y = 0
+
+        elif (self.pos_y - vitesse_montee) >= 0:
             self.pos_y = self.pos_y - vitesse_montee
 
 

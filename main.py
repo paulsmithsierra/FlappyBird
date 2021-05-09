@@ -23,15 +23,14 @@ tuyau_2H = Obstacle()
 tuyau_2B = Obstacle()
 # Sol
 sol = Obstacle()
+# Score
+score = None
 # Autres
-boucle_run = None
 
 
 
 def setup():
     print("Setup START---------")
-    global boucle_run
-    boucle_run = True
 
     # ---Fenêtre---
     core.fps = 30
@@ -85,6 +84,10 @@ def setup():
     sol.posY2 = 100
 
 
+    # ---Setup Score---
+    global score
+    score = 0
+
     print("Setup END-----------")
 
 
@@ -105,12 +108,27 @@ def run():
     tuyau_2B.affichage()
     tuyau_2B.move()
 
+
     # ---Flappy Bird---
     flappy.affichage()
-    flappy.gravite(5)
+    flappy.gravite(6)
+
 
     # ---Sol---
     sol.affichage()
+
+
+    # ---Score---
+    global score
+    if tuyau_1H.posX1 == (flappy.pos_x - flappy.rayon):
+
+        score = score + 1
+        print(score)
+
+    if tuyau_2H.posX1 == (flappy.pos_x - flappy.rayon):
+
+        score = score + 1
+        print(score)
 
     # ---Actions---
     # Sauter (spacebar)

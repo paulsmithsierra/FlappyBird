@@ -24,7 +24,7 @@ class Obstacle:
         # Déplacement
         self.posX1 = self.posX1 - 5
         self.compteur_moveX1 = self.compteur_moveX1 + 5
-        print(self.compteur_moveX1)
+        #print(self.compteur_moveX1)
 
         # Reset position
         if self.posX1 == 0:
