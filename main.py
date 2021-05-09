@@ -16,6 +16,8 @@ from obstacle import Obstacle
 flappy = Bird()
 tuyau_1 = Obstacle()
 tuyau_2 = Obstacle()
+espace_1 = Obstacle()
+espace_2 = Obstacle()
 sol = Obstacle()
 i = None
 true = 1
@@ -51,6 +53,20 @@ def setup():
     tuyau_2.O_compteur_moveX1 = 0
 
     # ---Setup Espace---
+    # 1
+    espace_1.O_couleur = "black"
+    espace_1.O_posX1 = tuyau_1.O_posX1
+    espace_1.O_posY1 = randint(50, 300)
+    espace_1.O_posX2 = tuyau_1.O_posX2
+    espace_1.O_posY2 = 125
+    espace_1.O_compteur_moveX1 = 0
+    # 2
+    espace_2.O_couleur = "black"
+    espace_2.O_posX1 = tuyau_2.O_posX1
+    espace_2.O_posY1 = randint(50, 300)
+    espace_2.O_posX2 = tuyau_2.O_posX2
+    espace_2.O_posY2 = 125
+    espace_2.O_compteur_moveX1 = 0
 
 
     # ---Setup Sol---
@@ -67,10 +83,6 @@ def setup():
 def run():
     print("running")
 
-    # ---Flappy---
-    flappy.affichage()
-    flappy.gravite()
-
     # ---Tuyaux---
     # 1
     tuyau_1.affichage()
@@ -78,6 +90,18 @@ def run():
     # 2
     tuyau_2.affichage()
     tuyau_2.move()
+
+    # ---Espaces---
+    # 1
+    espace_1.affichage()
+    espace_1.move()
+    # 2
+    espace_2.affichage()
+    espace_2.move()
+
+    # ---Flappy---
+    flappy.affichage()
+    flappy.gravite()
 
     # ---Sol---
     sol.affichage()

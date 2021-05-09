@@ -56,7 +56,7 @@ def setup():
     screen = pygame.display.set_mode(WINDOW_SIZE)
 
     # Set title of screen
-    pygame.display.set_caption("Flappy Bird")
+    pygame.display.set_caption("Flappy Bird Remake")
 
 
 def run():

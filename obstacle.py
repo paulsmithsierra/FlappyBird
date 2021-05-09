@@ -20,20 +20,13 @@ class Obstacle:
 
     def move(self):
 
-        #Déplacement
+        # Déplacement
         self.O_posX1 = self.O_posX1 - 5
         self.O_compteur_moveX1 = self.O_compteur_moveX1 + 5
         print(self.O_compteur_moveX1)
 
-        #Reset
+        # Reset position
         if self.O_posX1 == 0:
             # Déplacement (pos X)
             self.O_posX1 = 800
             self.O_compteur_moveX1 = 0
-
-
-
-
-
-
-
