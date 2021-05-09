@@ -3,18 +3,20 @@
 # Quentin DEMURGE (email: ) and Paul SMITH (email: paulsierra817@gmail.com)
 # IUT Lyon 1 - LP RAVI
 
+
+from random import randint
 import pygame
-from pygame import K_s, K_SPACE
+from pygame import K_SPACE
 import core
 from bird import Bird
 from obstacle import Obstacle
 
+
 # Variables globales
 flappy = Bird()
-
-tuyau = Obstacle()
-
-
+tuyau_1 = Obstacle()
+tuyau_2 = Obstacle()
+sol = Obstacle()
 i = None
 true = 1
 
@@ -22,7 +24,7 @@ true = 1
 def setup():
     print("Setup START---------")
 
-    #Fenêtre
+    # ---Fenêtre---
     core.fps = 30
     core.WINDOW_SIZE = [800, 500]
 
@@ -32,13 +34,31 @@ def setup():
     flappy.pos_y = 250
     flappy.rayon = 20
 
-    # ---Setup Tuyau---
-    tuyau.couleur = "dark green"
-    tuyau.posX1 = 800
-    tuyau.posY1 = 0
-    tuyau.posX2 = 50
-    tuyau.posY2 = 500
-    tuyau.compteur_move_X1 = 0
+    # ---Setup Obstacles---
+    # Tuyau 1
+    tuyau_1.O_couleur = "dark green"
+    tuyau_1.O_posX1 = 800
+    tuyau_1.O_posY1 = 0
+    tuyau_1.O_posX2 = 50
+    tuyau_1.O_posY2 = 500
+    tuyau_1.O_compteur_moveX1 = 0
+    # Tuyau 2
+    tuyau_2.O_couleur = "dark green"
+    tuyau_2.O_posX1 = 1200
+    tuyau_2.O_posY1 = 0
+    tuyau_2.O_posX2 = 50
+    tuyau_2.O_posY2 = 500
+    tuyau_2.O_compteur_moveX1 = 0
+
+    # ---Setup Espace---
+
+
+    # ---Setup Sol---
+    sol.O_couleur = "brown"
+    sol.O_posX1 = 0
+    sol.O_posY1 = 400
+    sol.O_posX2 = 800
+    sol.O_posY2 = 100
 
 
     print("Setup END-----------")
@@ -47,19 +67,30 @@ def setup():
 def run():
     print("running")
 
-    #Affichage Flappy
+    # ---Flappy---
     flappy.affichage()
+    flappy.gravite()
 
-    #Affichage Tuyau
-    tuyau.affichage()
+    # ---Tuyaux---
+    # 1
+    tuyau_1.affichage()
+    tuyau_1.move()
+    # 2
+    tuyau_2.affichage()
+    tuyau_2.move()
 
-    #Déplacement tuyau
-    tuyau.move()
+    # ---Sol---
+    sol.affichage()
 
-    #Saut
+    # ---Sauter---
     if pygame.key.get_pressed()[K_SPACE]:
 
         flappy.saut()
+
+    # Hauteur aléatoire espace entre tuyaux
+    #if tuyau_1.O_compteur_move_X1 == 400:
+
+        #tuyau_1.hauteur_obstacle_random()
 
 
 

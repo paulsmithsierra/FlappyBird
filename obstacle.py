@@ -6,31 +6,33 @@ class Obstacle:
 
     def __init__(self):
 
-        self.posX1 = None
-        self.posX2 = None
-        self.posY1 = None
-        self.posY2 = None
-        self.couleur = ""
-        self.compteur_move_X1 = None
+        self.O_posX1 = None
+        self.O_posX2 = None
+        self.O_posY1 = None
+        self.O_posY2 = None
+        self.O_couleur = ""
+        self.O_compteur_moveX1 = None
 
     def affichage(self):
 
-        pygame.draw.rect(core.screen, self.couleur, (self.posX1, self.posY1, self.posX2, self.posY2), 0)
-        print("Inside obstacle's affichage() method")
+        pygame.draw.rect(core.screen, self.O_couleur, (self.O_posX1, self.O_posY1, self.O_posX2, self.O_posY2), 0)
 
 
     def move(self):
 
         #Déplacement
-        self.posX1 = self.posX1 - 1
-        self.compteur_move_X1 = self.compteur_move_X1 + 1
-        print(self.compteur_move_X1)
+        self.O_posX1 = self.O_posX1 - 5
+        self.O_compteur_moveX1 = self.O_compteur_moveX1 + 5
+        print(self.O_compteur_moveX1)
 
         #Reset
-        if self.compteur_move_X1 == 800:
+        if self.O_posX1 == 0:
+            # Déplacement (pos X)
+            self.O_posX1 = 800
+            self.O_compteur_moveX1 = 0
 
-            self.posX1 = 800
-            self.compteur_move_X1 = 0
+
+
 
 
 
