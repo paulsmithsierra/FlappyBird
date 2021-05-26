@@ -3,7 +3,7 @@
 # Quentin DEMURGE (email: ) and Paul SMITH (email: paulsierra817@gmail.com)
 # IUT Lyon 1 - LP RAVI
 
-
+import sys
 from random import randint
 import pygame
 from pygame import K_SPACE
@@ -15,7 +15,6 @@ from obstacle import Obstacle
 # ---Variables globales---
 # Flappy Bird
 flappy = Bird()
-saut_front_montant = None
 # Tuyaux
 tuyau_1H = Obstacle()
 tuyau_1B = Obstacle()
@@ -33,7 +32,7 @@ def setup():
     print("Setup START---------")
 
     # ---Fenêtre---
-    core.fps = 30
+    core.fps = 60
     core.WINDOW_SIZE = [800, 500]
 
     # ---Setup Flappy---
@@ -49,15 +48,18 @@ def setup():
     tuyau_1H.posX1 = 800
     tuyau_1H.posY1 = 0
     tuyau_1H.posX2 = 50
-    tuyau_1H.posY2 = randint(1, 250)
-    tuyau_1H.compteur_moveX1 = 0
+    tuyau_1H.posY2 = randint(0, 200)
+
+
+
     ## Bas
     tuyau_1B.couleur = "dark green"
     tuyau_1B.posX1 = 800
     tuyau_1B.posY1 = tuyau_1H.posY2 + 150
     tuyau_1B.posX2 = 50
     tuyau_1B.posY2 = 500
-    tuyau_1B.compteur_moveX1 = 0
+
+
 
     # N°Tuyau 2
     ## Haut
@@ -65,15 +67,17 @@ def setup():
     tuyau_2H.posX1 = 1200
     tuyau_2H.posY1 = 0
     tuyau_2H.posX2 = 50
-    tuyau_2H.posY2 = randint(1, 250)
-    tuyau_2H.compteur_moveX1 = 0
+    tuyau_2H.posY2 = randint(0, 200)
+
+
+
     ## Bas
     tuyau_2B.couleur = "dark green"
     tuyau_2B.posX1 = 1200
     tuyau_2B.posY1 = tuyau_2H.posY2 + 150
     tuyau_2B.posX2 = 50
     tuyau_2B.posY2 = 500
-    tuyau_2B.compteur_moveX1 = 0
+
 
 
     # ---Setup Sol---
@@ -88,30 +92,45 @@ def setup():
     global score
     score = 0
 
+    # ---Setup Boucle Partie---
+
+
+
+
     print("Setup END-----------")
 
 
+
+
 def run():
-    print("running")
+
 
     # ---Tuyaux---
     # Haut 1
     tuyau_1H.affichage()
-    tuyau_1H.move()
+    tuyau_1H.move("H")
+
+
     # Bas 1
     tuyau_1B.affichage()
-    tuyau_1B.move()
+    tuyau_1B.move("B")
+    tuyau_1B.posY1 = tuyau_1H.posY2 + 150
+
     # Haut 2
     tuyau_2H.affichage()
-    tuyau_2H.move()
+    tuyau_2H.move("H")
+
+
     # Bas 2
     tuyau_2B.affichage()
-    tuyau_2B.move()
+    tuyau_2B.move("B")
+    tuyau_2B.posY1 = tuyau_2H.posY2 + 150
+
 
 
     # ---Flappy Bird---
     flappy.affichage()
-    flappy.gravite(6)
+    flappy.gravite(3)
 
 
     # ---Sol---
@@ -130,21 +149,47 @@ def run():
         score = score + 1
         print(score)
 
+
     # ---Actions---
     # Sauter (spacebar)
-    if pygame.key.get_pressed() [K_SPACE]:
+    for event in pygame.event.get():  # User did something
 
-        flappy.saut(30)
+        #Close window (X red corner icon)
+        if event.type == pygame.QUIT:
+            pygame.quit()
+            sys.exit()
+
+        #Appui barre d'espace
+        elif event.type == pygame.KEYDOWN:
+            if event.key == K_SPACE:
+                flappy.saut(60)
+
+
 
     # Collision
     if flappy.forme.colliderect(sol.forme):
         print("collision sol")
+        score = 0
 
     elif flappy.forme.colliderect(tuyau_1H.forme):
         print("collision tuyau 1")
+        score = 0
+
+    elif flappy.forme.colliderect(tuyau_1B.forme):
+        print("collision tuyau 1")
+        score = 0
+
 
     elif flappy.forme.colliderect(tuyau_2H.forme):
         print("collision tuyau 2")
+        score = 0
+
+
+    elif flappy.forme.colliderect(tuyau_2B.forme):
+        print("collision tuyau 2")
+        score = 0
+
+
 
 
 if __name__ == '__main__':
