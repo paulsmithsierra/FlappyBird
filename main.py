@@ -6,34 +6,47 @@
 import sys
 from random import randint
 import pygame
-from pygame import K_SPACE
+import pygame.freetype
 import core
+import functions
 from bird import Bird
 from obstacle import Obstacle
 
 
-# ---Variables globales---
+# ---VARIABLES GLOBALES---
 # Flappy Bird
 flappy = Bird()
+
 # Tuyaux
 tuyau_1H = Obstacle()
 tuyau_1B = Obstacle()
 tuyau_2H = Obstacle()
 tuyau_2B = Obstacle()
+
 # Sol
 sol = Obstacle()
+
 # Score
 score = None
-# Autres
+finalScore = None
+
+# Partie
 play = None
 
+# Autres
+font = None
 
+
+# INITIALISATION
 def setup():
+    global play, font, score, finalScore
+
     print("Setup START---------")
 
     # ---Fenêtre---
     core.fps = 60
     core.WINDOW_SIZE = [800, 500]
+
 
     # ---Setup Flappy---
     flappy.couleur = "yellow"
@@ -41,16 +54,15 @@ def setup():
     flappy.pos_y = 150
     flappy.rayon = 20
 
+
     # ---Setup Obstacles---
-    # N°Tuyau 1
+    # Tuyau 1
     ## Haut
     tuyau_1H.couleur = "dark green"
     tuyau_1H.posX1 = 800
     tuyau_1H.posY1 = 0
     tuyau_1H.posX2 = 50
     tuyau_1H.posY2 = randint(0, 200)
-
-
 
     ## Bas
     tuyau_1B.couleur = "dark green"
@@ -60,8 +72,7 @@ def setup():
     tuyau_1B.posY2 = 500
 
 
-
-    # N°Tuyau 2
+    # Tuyau 2
     ## Haut
     tuyau_2H.couleur = "dark green"
     tuyau_2H.posX1 = 1200
@@ -69,15 +80,12 @@ def setup():
     tuyau_2H.posX2 = 50
     tuyau_2H.posY2 = randint(0, 200)
 
-
-
     ## Bas
     tuyau_2B.couleur = "dark green"
     tuyau_2B.posX1 = 1200
     tuyau_2B.posY1 = tuyau_2H.posY2 + 150
     tuyau_2B.posX2 = 50
     tuyau_2B.posY2 = 500
-
 
 
     # ---Setup Sol---
@@ -89,25 +97,27 @@ def setup():
 
 
     # ---Setup Score---
-    global score
     score = 0
+    finalScore = 0
 
-    # ---Setup Boucle Partie---
-    global play
+
+    # ---Setup Partie---
     play = False
+
+    # ---Setup Autres---
+    font = pygame.freetype.SysFont("Sans-serif", 50, True, False)
 
 
 
     print("Setup END-----------")
 
 
-
+# GAME LOOP
 def run():
-
+    global score, finalScore, play
 
     # Affichage Menu Principal
-    print("Main menu")
-
+    functions.text_to_screen(core.screen, 'Press ENTER to play', 200, 250, 30, (255, 255, 255), "Sans-serif")
 
 
     # ---User Actions---
@@ -123,12 +133,12 @@ def run():
         if event.type == pygame.KEYDOWN:
             # Débuter une partie
             if event.key == pygame.K_RETURN:
-                global play
                 play = True
 
             # Sauter
-            if event.key == K_SPACE:
+            if event.key == pygame.K_SPACE:
                 flappy.saut(60)
+
 
 
     # Affichage flappy, obstacles et paysage pour partie
@@ -153,15 +163,21 @@ def run():
         tuyau_2B.move("B")
         tuyau_2B.posY1 = tuyau_2H.posY2 + 150
 
+
         # ---Flappy Bird---
         flappy.affichage()
         flappy.gravite(3)
 
+
         # ---Sol---
         sol.affichage()
 
+
         # ---Score---
-        global score
+        # Affichage
+        functions.text_to_screen(core.screen, 'Score: {0}'.format(score), 600, 450, 30, (255, 255, 255), "Sans-serif")
+
+        # Faire des points
         if tuyau_1H.posX1 == (flappy.pos_x - flappy.rayon):
             score = score + 1
             print(score)
@@ -170,31 +186,39 @@ def run():
             score = score + 1
             print(score)
 
-        # Collision
+
+        # Collision sol
         if flappy.forme.colliderect(sol.forme):
             print("collision sol")
+            finalScore = score
             score = 0
             play = False
 
+        # Collision Tuyau 1H
         elif flappy.forme.colliderect(tuyau_1H.forme):
             print("collision tuyau 1")
+            finalScore = score
             score = 0
             play = False
 
+        # Collision Tuyau 1B
         elif flappy.forme.colliderect(tuyau_1B.forme):
             print("collision tuyau 1")
+            finalScore = score
             score = 0
             play = False
 
-
+        # Collision Tuyau 2H
         elif flappy.forme.colliderect(tuyau_2H.forme):
             print("collision tuyau 2")
+            finalScore = score
             score = 0
             play = False
 
-
+        # Collision Tuyau 2B
         elif flappy.forme.colliderect(tuyau_2B.forme):
             print("collision tuyau 2")
+            finalScore = score
             score = 0
             play = False
 

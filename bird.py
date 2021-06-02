@@ -23,7 +23,7 @@ class Bird:
     # Gravité
     def gravite(self, vitesse_tombee):
 
-        self.pos_y = self.pos_y + vitesse_tombee
+        self.pos_y += vitesse_tombee
 
 
     # Saut
@@ -39,16 +39,17 @@ class Bird:
 
         else:
             for i in range(0, vitesse_montee):
-                self.pos_y = self.pos_y - 1
+                self.pos_y -= 1
 
-            if i == vitesse_montee:
-                montee_done = 1
+                if i == vitesse_montee:
+                    montee_done = 1
 
-        if montee_done == 1:
-            for j in range(0, vitesse_montee):
-                self.pos_y = self.pos_y + 1
+            if montee_done == 1:
+                for j in range(0, vitesse_montee):
+                    self.pos_y += 1
 
-            montee_done = 0
+                montee_done = 0
+
 
         self.gravite(1)
 
