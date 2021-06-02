@@ -25,7 +25,7 @@ sol = Obstacle()
 # Score
 score = None
 # Autres
-
+play = None
 
 
 def setup():
@@ -93,7 +93,8 @@ def setup():
     score = 0
 
     # ---Setup Boucle Partie---
-
+    global play
+    play = False
 
 
 
@@ -101,93 +102,101 @@ def setup():
 
 
 
-
 def run():
 
 
-    # ---Tuyaux---
-    # Haut 1
-    tuyau_1H.affichage()
-    tuyau_1H.move("H")
-
-
-    # Bas 1
-    tuyau_1B.affichage()
-    tuyau_1B.move("B")
-    tuyau_1B.posY1 = tuyau_1H.posY2 + 150
-
-    # Haut 2
-    tuyau_2H.affichage()
-    tuyau_2H.move("H")
-
-
-    # Bas 2
-    tuyau_2B.affichage()
-    tuyau_2B.move("B")
-    tuyau_2B.posY1 = tuyau_2H.posY2 + 150
+    # Affichage Menu Principal
+    print("Main menu")
 
 
 
-    # ---Flappy Bird---
-    flappy.affichage()
-    flappy.gravite(3)
-
-
-    # ---Sol---
-    sol.affichage()
-
-
-    # ---Score---
-    global score
-    if tuyau_1H.posX1 == (flappy.pos_x - flappy.rayon):
-
-        score = score + 1
-        print(score)
-
-    if tuyau_2H.posX1 == (flappy.pos_x - flappy.rayon):
-
-        score = score + 1
-        print(score)
-
-
-    # ---Actions---
-    # Sauter (spacebar)
+    # ---User Actions---
     for event in pygame.event.get():  # User did something
 
-        #Close window (X red corner icon)
+        # Fermer la fenêtre (croix rouge)
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
 
-        #Appui barre d'espace
-        elif event.type == pygame.KEYDOWN:
+
+        # Appui touche clavier
+        if event.type == pygame.KEYDOWN:
+            # Débuter une partie
+            if event.key == pygame.K_RETURN:
+                global play
+                play = True
+
+            # Sauter
             if event.key == K_SPACE:
                 flappy.saut(60)
 
 
+    # Affichage flappy, obstacles et paysage pour partie
+    if play:
 
-    # Collision
-    if flappy.forme.colliderect(sol.forme):
-        print("collision sol")
-        score = 0
+        # ---Tuyaux---
+        # Haut 1
+        tuyau_1H.affichage()
+        tuyau_1H.move("H")
 
-    elif flappy.forme.colliderect(tuyau_1H.forme):
-        print("collision tuyau 1")
-        score = 0
+        # Bas 1
+        tuyau_1B.affichage()
+        tuyau_1B.move("B")
+        tuyau_1B.posY1 = tuyau_1H.posY2 + 150
 
-    elif flappy.forme.colliderect(tuyau_1B.forme):
-        print("collision tuyau 1")
-        score = 0
+        # Haut 2
+        tuyau_2H.affichage()
+        tuyau_2H.move("H")
+
+        # Bas 2
+        tuyau_2B.affichage()
+        tuyau_2B.move("B")
+        tuyau_2B.posY1 = tuyau_2H.posY2 + 150
+
+        # ---Flappy Bird---
+        flappy.affichage()
+        flappy.gravite(3)
+
+        # ---Sol---
+        sol.affichage()
+
+        # ---Score---
+        global score
+        if tuyau_1H.posX1 == (flappy.pos_x - flappy.rayon):
+            score = score + 1
+            print(score)
+
+        if tuyau_2H.posX1 == (flappy.pos_x - flappy.rayon):
+            score = score + 1
+            print(score)
+
+        # Collision
+        if flappy.forme.colliderect(sol.forme):
+            print("collision sol")
+            score = 0
+            play = False
+
+        elif flappy.forme.colliderect(tuyau_1H.forme):
+            print("collision tuyau 1")
+            score = 0
+            play = False
+
+        elif flappy.forme.colliderect(tuyau_1B.forme):
+            print("collision tuyau 1")
+            score = 0
+            play = False
 
 
-    elif flappy.forme.colliderect(tuyau_2H.forme):
-        print("collision tuyau 2")
-        score = 0
+        elif flappy.forme.colliderect(tuyau_2H.forme):
+            print("collision tuyau 2")
+            score = 0
+            play = False
 
 
-    elif flappy.forme.colliderect(tuyau_2B.forme):
-        print("collision tuyau 2")
-        score = 0
+        elif flappy.forme.colliderect(tuyau_2B.forme):
+            print("collision tuyau 2")
+            score = 0
+            play = False
 
 
 

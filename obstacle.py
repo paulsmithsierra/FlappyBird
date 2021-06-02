@@ -26,7 +26,7 @@ class Obstacle:
     def move(self, partieHaute):
 
         # Déplacement
-        self.posX1 = self.posX1 - 5
+        self.posX1 = self.posX1 - 4
 
         # Tuyau hors écran
         if self.posX1 == 0:

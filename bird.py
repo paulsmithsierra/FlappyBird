@@ -29,6 +29,8 @@ class Bird:
     # Saut
     def saut(self, vitesse_montee):
 
+        montee_done = None
+
         self.gravite(0)
 
         if (self.pos_y - vitesse_montee) < 0:
@@ -38,6 +40,15 @@ class Bird:
         else:
             for i in range(0, vitesse_montee):
                 self.pos_y = self.pos_y - 1
+
+            if i == vitesse_montee:
+                montee_done = 1
+
+        if montee_done == 1:
+            for j in range(0, vitesse_montee):
+                self.pos_y = self.pos_y + 1
+
+            montee_done = 0
 
         self.gravite(1)
 
