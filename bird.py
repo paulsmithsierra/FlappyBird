@@ -1,23 +1,29 @@
 import pygame
 import core
-from obstacle import Obstacle
+
 
 
 class Bird:
 
     def __init__(self):
 
-        self.forme = None
+        self.hitbox = None
         self.couleur = ""
         self.rayon = None
         self.pos_x = None
         self.pos_y = None
 
 
+    # Init après collision
+    def reset(self, posX, posY):
+        self.pos_x = posX
+        self.pos_y = posY
+
+
     # Affichage dans la fenêtre
     def affichage(self):
 
-        self.forme = pygame.draw.circle(core.screen, self.couleur, [self.pos_x, self.pos_y], self.rayon)
+        self.hitbox = pygame.draw.circle(core.screen, self.couleur, [self.pos_x, self.pos_y], self.rayon)
 
 
     # Gravité
@@ -51,10 +57,3 @@ class Bird:
                 montee_done = 0
 
 
-        self.gravite(1)
-
-
-
-    def collision(self):
-
-        pass
