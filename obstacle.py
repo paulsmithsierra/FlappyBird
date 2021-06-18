@@ -3,6 +3,7 @@ import pygame
 import core
 
 
+
 class Obstacle:
 
     def __init__(self):

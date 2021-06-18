@@ -1,6 +1,6 @@
 # This is a recreation of the famous game "Flappy Bird"
 # Made by:
-# Quentin DEMURGE (email: ) and Paul SMITH (email: paulsierra817@gmail.com)
+# Quentin DÉMURGÉ (email: ) and Paul SMITH (email: paulsierra817@gmail.com)
 # IUT Lyon 1 - LP RAVI
 
 import sys

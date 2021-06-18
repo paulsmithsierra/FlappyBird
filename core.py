@@ -5,6 +5,7 @@ from types import FrameType
 
 import pygame
 
+
 runfuntion = None
 setupfunction = None
 screen = None
