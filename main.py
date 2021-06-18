@@ -40,12 +40,16 @@ play = None
 # Autres
 menuFont = None
 scoreFont = None
-text_surface = None
+document = None
+content = None
+
 
 
 # INITIALISATION
 def setup():
-    global play, score, affichageScore, lastScore, maxScore, previousScore, menuFont, scoreFont
+    global play, score, affichageScore, lastScore, maxScore, affichageMaxScore, previousScore, menuFont, \
+        scoreFont, document, content, monTableau
+
 
     print("Setup START---------")
 
@@ -89,8 +93,14 @@ def setup():
     score = 0
     affichageScore = "0"
     lastScore = "0"
-    maxScore = 0
     previousScore = 0
+
+    # Récuperation du Max Score depuis fichier texte
+    document = open('maxScore.txt', 'r')
+    content = document.read()
+    monTableau = [int(i) for i in content.split('\n')] # transformation en int
+    maxScore = monTableau[0]
+    affichageMaxScore = str(maxScore) # transformation en string pour affichage
 
 
     # ---Setup Partie---
@@ -122,10 +132,14 @@ def run():
 
 
         # Max Score
-        if previousScore > maxScore:
+        if maxScore < previousScore:
 
-            maxScore = previousScore
             affichageMaxScore = str(previousScore)
+            maxScore = previousScore
+
+            # Écriture du nouveau Max Score
+            document = open('maxScore.txt', 'w')
+            document.write(affichageMaxScore)
             previousScore = 0
 
 
@@ -192,11 +206,11 @@ def run():
         scoreFont.render_to(core.screen, (550, 450), "Score: " + affichageScore, (0, 0, 0))
 
         # Points
-        if tuyau_1H.pos_x1 == (flappy.pos_x - flappy.rayon):
+        if tuyau_1H.pos_x1 == (flappy.pos_x - 2*flappy.rayon):
             score += 1
             affichageScore = str(score)
 
-        if tuyau_2H.pos_x1 == (flappy.pos_x - flappy.rayon):
+        if tuyau_2H.pos_x1 == (flappy.pos_x - 2*flappy.rayon):
             score += 1
             affichageScore = str(score)
 
