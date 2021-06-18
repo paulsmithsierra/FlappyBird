@@ -8,7 +8,6 @@ from random import randint
 import pygame
 import pygame.freetype
 import core
-import functions
 from bird import Bird
 from obstacle import Obstacle
 
@@ -16,6 +15,7 @@ from obstacle import Obstacle
 # ---VARIABLES GLOBALES---
 # Flappy Bird
 flappy = Bird()
+flappyImage = None
 
 # Tuyaux
 tuyau_1H = Obstacle()
@@ -28,24 +28,27 @@ sol = Obstacle()
 
 # Score
 score = None
-finalScore = None
+lastScore = None
 affichageScore = ""
+maxScore = None
+affichageMaxScore = ""
+previousScore = None
 
 # Partie
 play = None
 
 # Autres
-toto = None
-MenuFont = None
-ScoreFont = None
+menuFont = None
+scoreFont = None
 text_surface = None
 
 
 # INITIALISATION
 def setup():
-    global play, score, affichageScore, finalScore, MenuFont, ScoreFont
+    global play, score, affichageScore, lastScore, maxScore, previousScore, menuFont, scoreFont
 
     print("Setup START---------")
+
 
     # ---Fenêtre---
     core.fps = 70
@@ -59,11 +62,11 @@ def setup():
 
 
     # ---Setup Obstacles---
+
     # Tuyau 1
     ## Haut
     tuyau_1H.couleur = "dark green"
     tuyau_1H.reset(800, 0, 50, randint(0, 200))
-
     ## Bas
     tuyau_1B.couleur = "dark green"
     tuyau_1B.reset(800, tuyau_1H.pos_y2 + 150, 50, 500)
@@ -72,21 +75,22 @@ def setup():
     ## Haut
     tuyau_2H.couleur = "dark green"
     tuyau_2H.reset(1200, 0, 50, randint(0, 200))
-
     ## Bas
     tuyau_2B.couleur = "dark green"
     tuyau_2B.reset(1200, tuyau_2H.pos_y2 + 150, 50, 500)
 
 
     # ---Setup Sol---
-    sol.couleur = "brown"
+    sol.couleur = "beige"
     sol.reset(0, 400, 800, 100)
 
 
     # ---Setup Score---
     score = 0
-    finalScore = 0
-    affichageScore = ""
+    affichageScore = "0"
+    lastScore = "0"
+    maxScore = 0
+    previousScore = 0
 
 
     # ---Setup Partie---
@@ -94,20 +98,36 @@ def setup():
 
 
     # ---Setup Autres---
-    MenuFont = pygame.freetype.SysFont("Sans-serif", 30, True, False)
-    ScoreFont = pygame.freetype.SysFont("Sans-serif", 20, True, False)
+    menuFont = pygame.freetype.SysFont("Sans-serif", 40, True, False)
+    scoreFont = pygame.freetype.SysFont("Sans-serif", 20, True, False)
+
 
     print("Setup END-----------")
 
 
+
 # GAME LOOP
 def run():
-    global score, affichageScore, finalScore, play, MenuFont, ScoreFont, toto
+    global score, affichageScore, lastScore, maxScore, affichageMaxScore, previousScore, play, menuFont, scoreFont
+
 
     # ---MENU---
     if not play:
+
         # Affichage Menu Principal
-        MenuFont.render_to(core.screen, (225, 250), "Press ENTER to play", (255, 255, 255))
+        menuFont.render_to(core.screen, (200, 200), "Press ENTER to play", (255, 255, 255))
+        scoreFont.render_to(core.screen, (200, 260), "(Use SPACEBAR to fly) ", ("yellow"))
+        scoreFont.render_to(core.screen, (550, 415), "Last score: " + lastScore, (255, 255, 255))
+        scoreFont.render_to(core.screen, (550, 450), "Max score: " + affichageMaxScore, ("dark green"))
+
+
+        # Max Score
+        if previousScore > maxScore:
+
+            maxScore = previousScore
+            affichageMaxScore = str(previousScore)
+            previousScore = 0
+
 
 
     # ---User Actions---
@@ -124,7 +144,6 @@ def run():
             # Débuter une partie
             if event.key == pygame.K_RETURN:
                 play = True
-                toto = True
 
             # Sauter
             if event.key == pygame.K_SPACE:
@@ -170,15 +189,15 @@ def run():
 
         # ---SCORE---
         # Affichage
-        ScoreFont.render_to(core.screen, (550, 450), "Score: " + affichageScore, (255, 255, 255))
+        scoreFont.render_to(core.screen, (550, 450), "Score: " + affichageScore, (0, 0, 0))
 
         # Points
         if tuyau_1H.pos_x1 == (flappy.pos_x - flappy.rayon):
-            score = score + 1
+            score += 1
             affichageScore = str(score)
 
         if tuyau_2H.pos_x1 == (flappy.pos_x - flappy.rayon):
-            score = score + 1
+            score += 1
             affichageScore = str(score)
 
 
@@ -186,11 +205,11 @@ def run():
         # ---COLLISIONS---
         # Collision sol
         if flappy.hitbox.colliderect(sol.hitbox):
-            print("collision sol")
             play = False
-            finalScore = score
+            lastScore = affichageScore
+            previousScore = score
             score = 0
-            affichageScore = ""
+            affichageScore = "0"
             flappy.reset(80, 150)
             tuyau_1H.reset(800, 0, 50, randint(0, 200))
             tuyau_1B.reset(800, tuyau_1H.pos_y2 + 150, 50, 500)
@@ -199,11 +218,11 @@ def run():
 
         # Collision Tuyau 1H
         elif flappy.hitbox.colliderect(tuyau_1H.hitbox):
-            print("collision tuyau 1")
             play = False
-            finalScore = score
+            lastScore = affichageScore
+            previousScore = score
             score = 0
-            affichageScore = ""
+            affichageScore = "0"
             flappy.reset(80, 150)
             tuyau_1H.reset(800, 0, 50, randint(0, 200))
             tuyau_1B.reset(800, tuyau_1H.pos_y2 + 150, 50, 500)
@@ -212,11 +231,11 @@ def run():
 
         # Collision Tuyau 1B
         elif flappy.hitbox.colliderect(tuyau_1B.hitbox):
-            print("collision tuyau 1")
             play = False
-            finalScore = score
+            lastScore = affichageScore
+            previousScore = score
             score = 0
-            affichageScore = ""
+            affichageScore = "0"
             flappy.reset(80, 150)
             tuyau_1H.reset(800, 0, 50, randint(0, 200))
             tuyau_1B.reset(800, tuyau_1H.pos_y2 + 150, 50, 500)
@@ -225,11 +244,11 @@ def run():
 
         # Collision Tuyau 2H
         elif flappy.hitbox.colliderect(tuyau_2H.hitbox):
-            print("collision tuyau 2")
             play = False
-            finalScore = score
+            lastScore = affichageScore
+            previousScore = score
             score = 0
-            affichageScore = ""
+            affichageScore = "0"
             flappy.reset(80, 150)
             tuyau_1H.reset(800, 0, 50, randint(0, 200))
             tuyau_1B.reset(800, tuyau_1H.pos_y2 + 150, 50, 500)
@@ -238,11 +257,11 @@ def run():
 
         # Collision Tuyau 2B
         elif flappy.hitbox.colliderect(tuyau_2B.hitbox):
-            print("collision tuyau 2")
             play = False
-            finalScore = score
+            lastScore = affichageScore
+            previousScore = score
             score = 0
-            affichageScore = ""
+            affichageScore = "0"
             flappy.reset(80, 150)
             tuyau_1H.reset(800, 0, 50, randint(0, 200))
             tuyau_1B.reset(800, tuyau_1H.pos_y2 + 150, 50, 500)

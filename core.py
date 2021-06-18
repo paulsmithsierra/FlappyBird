@@ -83,7 +83,7 @@ def main(setupf,runf):
     print("Run START-----------")
     while not done:
         if not loopLock :
-            screen.fill(0)
+            screen.fill("sky blue")
             run()
 
         for event in pygame.event.get():  # User did something
